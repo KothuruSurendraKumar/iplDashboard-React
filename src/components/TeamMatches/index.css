@@ -1,0 +1,23 @@
+/* Write your CSS here */
+.team-match-container {
+  display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(to bottom, #d91c1f, #1e293b);
+  background-size: cover;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding-left: 25px;
+}
+.team-banner {
+  height: 300px;
+  width: 80%;
+}
+.latest-text {
+  text-align: start;
+  align-self: flex-start;
+  padding-left: 135px;
+  color: white;
+  font-family: 'Bree Serif';
+  font-weight: 500;
+}
