@@ -1,10 +1,12 @@
 // Write your code here
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
 import LatestMatch from '../LatestMatch'
+import MatchCard from '../MatchCard'
 import './index.css'
 
 class TeamMatches extends Component {
-  state = {teamMatches: []}
+  state = {teamMatches: [], isLoading: true}
 
   componentDidMount() {
     this.getTeamData()
@@ -41,23 +43,67 @@ class TeamMatches extends Component {
       ),
     }
     console.log(updatedData)
-    this.setState({teamMatches: updatedData})
+    this.setState({teamMatches: updatedData, isLoading: false})
   }
 
   renderTeamMatches = () => {
     const {teamMatches} = this.state
-    const {teamBannerUrl, latestMatch} = teamMatches
+    const {teamBannerUrl, latestMatch, recentMatches} = teamMatches
     return (
       <div className="team-match-container">
         <img src={teamBannerUrl} alt="team banner" className="team-banner" />
-        <p className="latest-text">Latest Matchs</p>
+
         <LatestMatch latestMatchData={latestMatch} />
+        <ul className="recent-list">
+          {recentMatches.map(recentMatch => (
+            <MatchCard key={recentMatch.id} recentMatchData={recentMatch} />
+          ))}
+        </ul>
       </div>
     )
   }
 
+  getRouteClassName = () => {
+    const {match} = this.props
+    const {params} = match
+    const {id} = params
+
+    switch (id) {
+      case 'RCB':
+        return 'rcb'
+      case 'KKR':
+        return 'kkr'
+      case 'KXP':
+        return 'kxp'
+      case 'CSK':
+        return 'csk'
+      case 'RR':
+        return 'rr'
+      case 'MI':
+        return 'mi'
+      case 'SH':
+        return 'srh'
+      case 'DC':
+        return 'dc'
+      default:
+        return ''
+    }
+  }
+
+  renderLoader = () => (
+    <div testid="loader" className="loader-container">
+      <Loader type="Oval" color="#ffffff" height={50} />
+    </div>
+  )
+
   render() {
-    return <div>{this.renderTeamMatches()}</div>
+    const {isLoading} = this.state
+    const className = `team-matches-container ${this.getRouteClassName()}`
+    return (
+      <div className={className}>
+        {isLoading ? this.renderLoader() : this.renderTeamMatches()}
+      </div>
+    )
   }
 }
 export default TeamMatches

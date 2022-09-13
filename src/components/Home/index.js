@@ -1,11 +1,13 @@
 // Write your code here
 import {Component} from 'react'
+import Loader from 'react-loader-spinner'
 import TeamCard from '../TeamCard'
 import './index.css'
 
 class Home extends Component {
   state = {
     teamCard: [],
+    isLoading: true,
   }
 
   componentDidMount() {
@@ -22,7 +24,7 @@ class Home extends Component {
       teamImageUrl: eachItem.team_image_url,
     }))
     console.log(updatedTeamcard)
-    this.setState({teamCard: updatedTeamcard})
+    this.setState({teamCard: updatedTeamcard, isLoading: false})
   }
 
   renderDashboard = () => {
@@ -47,8 +49,15 @@ class Home extends Component {
     )
   }
 
+  renderLoader = () => (
+    <div testid="loader" className="loader-container">
+      <Loader type="Oval" color="#ffffff" height={50} />
+    </div>
+  )
+
   render() {
-    return <div>{this.renderDashboard()}</div>
+    const {isLoading} = this.state
+    return <div>{isLoading ? this.renderLoader() : this.renderDashboard()}</div>
   }
 }
 export default Home
